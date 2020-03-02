@@ -1,0 +1,30 @@
+{
+  "name": "backend-pizzablock",
+  "version": "1.0.0",
+  "description": "- Manejo de solicitudes (de Frontend [otro repo]) y base de datos\r - Conexiones entre Multiplayer (otro repo) y Frontend\r - Seguridad de solicitudes y respuestas",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DniGaytan/PizzaBlock-backend.git"
+  },
+  "keywords": [
+    "pizzablock"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DniGaytan/PizzaBlock-backend/issues"
+  },
+  "homepage": "https://github.com/DniGaytan/PizzaBlock-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.2",
+    "morgan": "^1.9.1",
+    "path": "^0.12.7",
+    "uuid": "^7.0.1"
+  }
+}
