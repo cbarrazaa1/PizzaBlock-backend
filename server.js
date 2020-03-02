@@ -16,9 +16,9 @@ mongoose.Promise = global.Promise;
 
 let server;
 
-function runServer(port, databaseUrl) {
+function runServer(port, DATABASE_URL) {
   return new Promise((resolve, reject) => {
-    mongoose.connect(databaseUrl, response => {
+    mongoose.connect(DATABASE_URL, response => {
       if (response) {
         return reject(response);
       } else {
