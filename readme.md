@@ -8,3 +8,7 @@
 
 - Frontend (no hay repo por el momento)
 - Multiplayer (no hay repo por el momento)
+
+# Modulos relevantes
+
+- Passport para autenticacion
