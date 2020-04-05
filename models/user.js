@@ -35,7 +35,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  profilePicture: {}, //Tengo dudas en como handlear este pex
+  //profilePicture: {}, //Tengo dudas en como handlear este pex
   balance: {
     type: NumberDecimal(0.0),
   },
