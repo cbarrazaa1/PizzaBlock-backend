@@ -3,41 +3,43 @@ const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema({
   id: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true
+    required: true,
   },
   name: {
-    type: String
+    type: String,
   },
   last_name: {
-    type: String
+    type: String,
   },
   user_name: {
     type: String,
-    required: true
+    required: true,
+    unique: true,
   },
   email: {
     type: mongoose.SchemaTypes.Email,
-    required: true
+    required: true,
+    unique: true,
   },
   street_addr: {
-    type: String
+    type: String,
   },
   zip_code: {
-    type: Number
+    type: Number,
   },
   country: {
     //Tengo dudas en cuanto a como almacenaremos el valor de country
-    type: String
+    type: String,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   profilePicture: {}, //Tengo dudas en como handlear este pex
   balance: {
-    type: NumberDecimal(0.0)
+    type: NumberDecimal(0.0),
   },
-  games: [{ type: mongoose.Schema.Types.ObjectId, ref: "Game" }] //Participaciones | es una manera de poder representar una relacion M TO N
+  games: [{ type: mongoose.Schema.Types.ObjectId, ref: "Game" }], //Participaciones | es una manera de poder representar una relacion M TO N
 });
 
 const User = mongoose.model("User", UserSchema);
