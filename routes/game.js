@@ -2,7 +2,7 @@ const gameModel = require("../models/game");
 const userModel = require("../models/user");
 const mongoose = require("mongoose");
 const express = require("express");
-const router = express.router();
+const router = express.Router();
 const path = require("path");
 let bodyParser = require("body-parser");
 let jsonParser = bodyParser.json();
@@ -72,3 +72,5 @@ router.get("/get/game/all", (req, res, next) => {
 //update game money_pool attribute
 
 //update game winner attribute
+
+module.exports = router;

@@ -1,7 +1,7 @@
 const userModel = require("../models/user");
 const mongoose = require("mongoose");
 const express = require("express");
-const router = express.router();
+const router = express.Router();
 const path = require("path");
 let bodyParser = require("body-parser");
 let jsonParser = bodyParser.json();
@@ -143,3 +143,5 @@ router.delete("/delete/user/:id", (req, res, next) => {
       });
     });
 });
+
+module.exports = router;
