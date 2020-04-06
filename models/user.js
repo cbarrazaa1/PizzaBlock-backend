@@ -37,7 +37,7 @@ const UserSchema = new mongoose.Schema({
   },
   //profilePicture: {}, //Tengo dudas en como handlear este pex
   balance: {
-    type: NumberDecimal(0.0),
+    type: Number,
   },
   games: [{ type: mongoose.Schema.Types.ObjectId, ref: "Game" }], //Participaciones | es una manera de poder representar una relacion M TO N
 });
