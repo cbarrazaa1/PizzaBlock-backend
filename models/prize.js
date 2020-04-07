@@ -12,7 +12,7 @@ const PrizeSchema = new mongoose.Schema({
     required: true,
   },
   price: {
-    type: NumberDecimal(0.0),
+    type: Number,
     required: true,
   },
 });
