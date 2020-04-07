@@ -19,6 +19,7 @@ router.post("/create/user", (req, res, next) => {
     zip_code: req.body.zip_code,
     country: req.body.country,
     password: req.body.password,
+    balance: 0.0,
   };
 
   userModel
