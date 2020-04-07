@@ -10,6 +10,7 @@ const app = express();
 
 let user = require("./routes/user");
 let game = require("./routes/game");
+let prize = require("./routes/prize");
 
 app.use(express.static("public"));
 app.use(morgan("dev"));
@@ -26,6 +27,7 @@ mongoose.Promise = global.Promise;
 app.use(bodyParser.json());
 app.use(user);
 app.use(game);
+app.use(prize);
 
 let server;
 
