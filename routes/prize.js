@@ -46,7 +46,7 @@ router.get("/get/prize/all", (req, res, next) => {
 });
 
 //update prize
-router.put("/update/prizae/:id", (req, res, next) => {
+router.put("/update/prize/:id", (req, res, next) => {
   if (req.params.id == "") {
     return res.status(406); //parameter needed
   }
