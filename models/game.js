@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 
 const GameSchema = new mongoose.Schema({
-  id: {
+  _id: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
+    auto: true,
   },
   winner: {
     type: mongoose.Schema.Types.ObjectId,

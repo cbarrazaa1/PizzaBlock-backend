@@ -1,18 +1,19 @@
 const mongoose = require("mongoose");
 
 const ModeSchema = new mongoose.Schema({
-  id: {
+  _id: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true
+    required: true,
+    auto: true,
   },
   name: {
     type: String,
-    required: true
+    required: true,
   },
   description: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const Mode = mongoose.model("Mode", ModeSchema);
