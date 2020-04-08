@@ -68,7 +68,7 @@ router.get("/get/game/all", (req, res, next) => {
 });
 
 //update game users attribute
-
+router.post("/charge");
 //update game money_pool attribute
 
 //update game winner attribute

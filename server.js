@@ -16,7 +16,12 @@ let mode = require("./routes/mode");
 app.use(express.static("public"));
 app.use(morgan("dev"));
 
-const { DATABASE_URL, PORT } = require("./config");
+const {
+  DATABASE_URL,
+  PORT,
+  STRIPE_PUBLISHABLE_KEY,
+  STRIPE_SECRET_KEY,
+} = require("./config");
 
 mongoose.set("useNewUrlParser", true);
 mongoose.connect("mongodb://localhost/backend-pizzablock", {
