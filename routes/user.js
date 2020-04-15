@@ -179,7 +179,7 @@ router.get("/validate/:token", (req, res) => {
       res.statusMessage = "Token not valid";
       return res.status(400).send();
     }
-    return res.status(200).json({ message: "Success", id: foundUser._id });
+    return res.status(200).json({ message: "success", id: foundUser._id });
   });
 });
 //update user
