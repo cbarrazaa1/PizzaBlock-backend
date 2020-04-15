@@ -76,6 +76,60 @@ router.post("/get/user/:email", (req, res, next) => {
     });
 });
 
+//login
+router.post("/login"),jsonParser, (req, res, next) => {
+  let { email, password } = req.body;
+
+  if (email == undefined || password == undefined) {
+    res.statusMessage = "No hay email o password";
+    return res.status(406).send();
+  }
+  userModel
+    .find({ email: email })
+    .then((foundUser) => {
+      if (foundUser != undefined) {
+        let data = {
+          emai: foundUser.email,
+          password: foundUser.password,
+          id: foundUser._id
+        };
+        if (password != foundUser.password) {
+          res.statusMessage = "Invalid password";
+          return res.status(400).send();
+        }
+
+        let token = jwt.sign(data, JWTTOKEN, {
+          expiresIn: 60 * 120
+        });
+        console.log(token);
+        return res.status(200).json({ token, id: foundUser._id });
+      }
+      res.statusMessage = "No se encontró el usuario";
+      return res.status(400).send();
+    })
+    .catch((e) => {
+      res.statusMessage = errorMsg;
+      res.status(500).json({
+        message: res.statusMessage,
+      });
+      return res;
+    });
+}
+//validate token
+app.get("/validate/:token", (req, res) => {
+  //let token = req.headers.authorization;
+  let token = req.params.token;
+  token = token.replace("Bearer ", "");
+
+  jwt.verify(token, JWTTOKEN, (err, foundUser) => {
+    if (err) {
+      res.statusMessage = "Token not valid";
+      return res.status(400).send();
+    }
+    return res.status(200).json({ message: "Success", id: foundUser._id });
+  });
+});
+
 //get all users
 router.get("/get/user/all", (req, res, next) => {
   userModel
