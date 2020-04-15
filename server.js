@@ -5,7 +5,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const uuid = require("uuid");
-
+let jwt = require("jsonwebtoken");
 const app = express();
 
 let user = require("./routes/user");
@@ -21,6 +21,7 @@ const {
   PORT,
   STRIPE_PUBLISHABLE_KEY,
   STRIPE_SECRET_KEY,
+  JWTTOKEN
 } = require("./config");
 
 mongoose.set("useNewUrlParser", true);

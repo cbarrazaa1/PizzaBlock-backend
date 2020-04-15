@@ -3,9 +3,10 @@ const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 const path = require("path");
+const JWTTOKEN = require("./config");
 let bodyParser = require("body-parser");
 let jsonParser = bodyParser.json();
-
+let jwt = require("jsonwebtoken");
 var errorMsg = "Database cannot be reached, try again later";
 
 //create user
