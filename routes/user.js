@@ -78,7 +78,7 @@ router.get("/get/user/:user_name", (req, res, next) => {
       if (foundUser != undefined) {
         return res.status(200).json({ foundUser });
       }
-      res.statusMessage = "No se encontró el usuario";
+      res.statusMessage = "No se encontró el usuario por nombre de usuario";
       return res.status(400).send();
     })
     .catch((e) => {
@@ -101,7 +101,7 @@ router.get("/get/user/:email", (req, res, next) => {
       if (foundUser != undefined) {
         return res.status(200).json({ foundUser });
       }
-      res.statusMessage = "No se encontró el usuario";
+      res.statusMessage = "No se encontró el usuario por email";
       return res.status(400).send();
     })
     .catch((e) => {
@@ -141,7 +141,7 @@ router.post("/login", jsonParser, (req, res) => {
         console.log(token);
         return res.status(200).json({ token, id: foundUser._id });
       } else {
-        res.statusMessage = "No se encontró el usuario";
+        res.statusMessage = "No se encontró el usuario por login";
         return res.status(400).send();
       }
     })
