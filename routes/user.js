@@ -64,7 +64,7 @@ router.post("/get/user/:email", (req, res, next) => {
   }
 
   userModel
-    .find({ email: req.params.email })
+    .findOne({ email: req.params.email })
     .then((foundUser) => {
       return res.status(200).json(foundUser);
     })
@@ -86,7 +86,7 @@ router.post("/login"),jsonParser, (req, res) => {
     return res.status(406).send();
   }
   userModel
-    .find({ email: email })
+    .findOne({ email: email })
     .then((foundUser) => {
       if (foundUser != undefined) {
         let data = {
