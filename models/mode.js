@@ -14,6 +14,10 @@ const ModeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  imgUrl: {
+    type: String,
+    required: false,
+  },
 });
 
 const Mode = mongoose.model("Mode", ModeSchema);

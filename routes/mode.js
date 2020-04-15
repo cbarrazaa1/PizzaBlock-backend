@@ -10,14 +10,15 @@ var errorMsg = "Database cannot be reached, try again later";
 
 //create mode
 router.post("/create/mode", jsonParser, (req, res, next) => {
-  let [name, description] = req.body;
-  if (name == undefined || description == undefined) {
+  let [name, description, imgUrl] = req.body;
+  if (name == undefined || description == undefined || imgUrl == undefined) {
     res.statusMessage = "No tiene las propiedades suficientes";
     return res.status(406).send();
   }
   var modeEntry = {
     name: req.body.name,
     description: req.body.description,
+    imgUrl: imgUrl,
   };
 
   modeModel
