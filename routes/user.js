@@ -11,6 +11,21 @@ var errorMsg = "Database cannot be reached, try again later";
 
 //create user
 router.post("/create/user", (req, res, next) => {
+  if (  
+    name == undefined ||
+    last_name   == undefined ||
+    user_name   == undefined ||
+    email   == undefined ||
+    street_addr   == undefined ||
+    zip_code   == undefined ||
+    country   == undefined ||
+    password   == undefined
+  )
+    {
+      res.statusMessage = "No tiene las propiedades suficientes";
+      return res.status(406).send();
+    }
+
   var userEntry = {
     name: req.body.name,
     last_name: req.body.last_name,
@@ -26,7 +41,8 @@ router.post("/create/user", (req, res, next) => {
   userModel
     .create(userEntry)
     .then((createdUser) => {
-      res.send(createdUser); //Envia el objeto [usuario] a Frontend
+      res.statusMessage = "Usuario Añadido";
+      return res.status(201).json(createdUser);//Envia el objeto [usuario] a Frontend
     })
     .catch((e) => {
       res.statusMessage = errorMsg;
@@ -46,7 +62,11 @@ router.get("/get/user/:user_name", (req, res, next) => {
   userModel
     .findOne({ user_name: req.params.user_name })
     .then((foundUser) => {
-      return res.status(200).json({ foundUser });
+      if (foundUser != undefined) {
+        return res.status(200).json({ foundUser });
+      }
+      res.statusMessage = "No se encontró el usuario";
+      return res.status(400).send();
     })
     .catch((e) => {
       res.statusMessage = errorMsg;
@@ -65,7 +85,11 @@ router.get("/get/user/:email", (req, res, next) => {
   userModel
     .findOne({ email: req.params.email })
     .then((foundUser) => {
-      return res.status(200).json({ foundUser });
+      if (foundUser != undefined) {
+        return res.status(200).json({ foundUser });
+      }
+      res.statusMessage = "No se encontró el usuario";
+      return res.status(400).send();
     })
     .catch((e) => {
       res.statusMessage = errorMsg;
@@ -103,9 +127,10 @@ router.post("/login"),jsonParser, (req, res) => {
         });
         console.log(token);
         return res.status(200).json({ token, id: foundUser._id });
+      } else {
+        res.statusMessage = "No se encontró el usuario";
+        return res.status(400).send();
       }
-      res.statusMessage = "No se encontró el usuario";
-      return res.status(400).send();
     })
     .catch((e) => {
       res.statusMessage = errorMsg;
@@ -148,25 +173,26 @@ router.get("/get/user/all", (req, res, next) => {
 //update user
 router.put("/update/user/:id", (req, res, next) => {
   if (req.params.id == "") {
-    return res.status(406); //parameter needed
+    return res.status(406).send(); //parameter needed
   }
 
   userModel.findById(req.params.id).then((foundUser) => {
     updatedUser = {
-      name: req.body.name,
-      last_name: req.body.last_name,
-      user_name: req.body.user_name,
-      email: req.body.email,
-      street_addr: req.body.street_addr,
-      zip_code: req.body.zip_code,
-      country: req.body.country,
-      password: req.body.password,
+      name: req.body.name || foundUser.name,
+      last_name: req.body.last_name || foundUser.last_name ,
+      user_name: req.body.user_name || foundUser.user_name,
+      email: req.body.email || foundUser.email,
+      street_addr: req.body.street_addr || foundUser.street_addr,
+      zip_code: req.body.zip_code || foundUser.zip_code,
+      country: req.body.country || foundUser.country,
+      password: req.body.password || foundUser.password,
     };
 
     userModel
-      .updateOne({ _id: foundUser._id }, updatedUSer)
-      .then((updatedUser) => {
-        res.status(200).json(updatedUser);
+      .updateOne({ _id: foundUser._id }, updatedUser)
+      .then((response) => {
+        res.statusMessage = "Updated User";
+        res.status(200).json(response);
       })
       .catch((e) => {
         res.statusMessage = errorMsg;
@@ -188,7 +214,7 @@ router.delete("/delete/user/:id", (req, res, next) => {
   userModel
     .delete(req.params.id)
     .then((deletedUser) => {
-      return res.status(200);
+      return res.status(200).json(deletedUser);
     })
     .catch((e) => {
       res.statusMessage = errorMsg;
