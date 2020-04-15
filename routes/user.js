@@ -62,9 +62,8 @@ router.get("/get/user/:email", (req, res, next) => {
   if (req.params.email == "") {
     return res.status(406); //parameter needed
   }
-
   userModel
-    .findOne({ email: req.params.email })
+    .find({ email: req.params.email })
     .then((foundUser) => {
       return res.status(200).json(foundUser);
     })
