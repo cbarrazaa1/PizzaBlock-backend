@@ -16,7 +16,7 @@ const ModeSchema = new mongoose.Schema({
   },
   imgUrl: {
     type: String,
-    required: false,
+    required: true,
   },
 });
 
