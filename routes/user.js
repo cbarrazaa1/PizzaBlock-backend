@@ -114,47 +114,46 @@ router.get("/get/user/:email", (req, res, next) => {
 });
 
 //login
-router.post("/login"),
-  jsonParser,
-  (req, res) => {
-    let { email, password } = req.body;
+router.post("/login", jsonParser, (req, res) => {
+  let { email, password } = req.body;
 
-    if (email == undefined || password == undefined) {
-      res.statusMessage = "No hay email o password";
-      return res.status(406).send();
-    }
-    userModel
-      .findOne({ email: email })
-      .then((foundUser) => {
-        if (foundUser != undefined) {
-          let data = {
-            emai: foundUser.email,
-            password: foundUser.password,
-            id: foundUser._id,
-          };
-          if (password != foundUser.password) {
-            res.statusMessage = "Invalid password";
-            return res.status(400).send();
-          }
-
-          let token = jwt.sign(data, JWTTOKEN, {
-            expiresIn: 60 * 120,
-          });
-          console.log(token);
-          return res.status(200).json({ token, id: foundUser._id });
-        } else {
-          res.statusMessage = "No se encontró el usuario";
+  if (email == undefined || password == undefined) {
+    res.statusMessage = "No hay email o password";
+    return res.status(406).send();
+  }
+  userModel
+    .findOne({ email: email })
+    .then((foundUser) => {
+      if (foundUser != undefined) {
+        let data = {
+          emai: foundUser.email,
+          password: foundUser.password,
+          id: foundUser._id,
+        };
+        if (password != foundUser.password) {
+          res.statusMessage = "Invalid password";
           return res.status(400).send();
         }
-      })
-      .catch((e) => {
-        res.statusMessage = errorMsg;
-        res.status(500).json({
-          message: res.statusMessage,
+
+        let token = jwt.sign(data, JWTTOKEN, {
+          expiresIn: 60 * 120,
         });
-        return res;
+        console.log(token);
+        return res.status(200).json({ token, id: foundUser._id });
+      } else {
+        res.statusMessage = "No se encontró el usuario";
+        return res.status(400).send();
+      }
+    })
+    .catch((e) => {
+      res.statusMessage = errorMsg;
+      res.status(500).json({
+        message: res.statusMessage,
       });
-  };
+      return res;
+    });
+});
+
 //validate token
 router.get("/validate/:token", (req, res) => {
   //let token = req.headers.authorization;
