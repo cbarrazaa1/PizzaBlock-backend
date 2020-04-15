@@ -21,7 +21,7 @@ const {
   PORT,
   STRIPE_PUBLISHABLE_KEY,
   STRIPE_SECRET_KEY,
-  JWTTOKEN
+  JWTTOKEN,
 } = require("./config");
 
 mongoose.set("useNewUrlParser", true);

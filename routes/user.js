@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 const path = require("path");
-const JWTTOKEN = require("./config");
+const JWTTOKEN = require("./../config");
 let bodyParser = require("body-parser");
 let jsonParser = bodyParser.json();
 let jwt = require("jsonwebtoken");
@@ -78,7 +78,7 @@ router.post("/get/user/:email", (req, res, next) => {
 });
 
 //login
-router.post("/login"),jsonParser, (req, res, next) => {
+router.post("/login"),jsonParser, (req, res) => {
   let { email, password } = req.body;
 
   if (email == undefined || password == undefined) {
@@ -117,7 +117,7 @@ router.post("/login"),jsonParser, (req, res, next) => {
     });
 }
 //validate token
-app.get("/validate/:token", (req, res) => {
+router.get("/validate/:token", (req, res) => {
   //let token = req.headers.authorization;
   let token = req.params.token;
   token = token.replace("Bearer ", "");
