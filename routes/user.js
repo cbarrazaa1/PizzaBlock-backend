@@ -38,7 +38,7 @@ router.post("/create/user", (req, res, next) => {
 });
 
 //get user by user_name
-router.post("/get/user/:user_name", (req, res, next) => {
+router.get("/get/user/:user_name", (req, res, next) => {
   if (req.params.user_name == "") {
     return res.status(406); //parameter needed
   }
@@ -58,7 +58,7 @@ router.post("/get/user/:user_name", (req, res, next) => {
 });
 
 //get user by email
-router.post("/get/user/:email", (req, res, next) => {
+router.get("/get/user/:email", (req, res, next) => {
   if (req.params.email == "") {
     return res.status(406); //parameter needed
   }
