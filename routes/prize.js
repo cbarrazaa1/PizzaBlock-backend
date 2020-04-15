@@ -18,7 +18,8 @@ router.post("/create/prize", (req, res, next) => {
   userModel
     .create(prizeEntry)
     .then((createdPrize) => {
-      res.send(createdPrize); //Envia el objeto [usuario] a Frontend
+      res.statusMessage = "Regalo Añadido";
+      return res.status(201).json(createdPrize); //Envia el objeto [usuario] a Frontend
     })
     .catch((e) => {
       res.statusMessage = errorMsg;
@@ -47,8 +48,10 @@ router.get("/get/prize/all", (req, res, next) => {
 
 //update prize
 router.put("/update/prize/:id", (req, res, next) => {
-  if (req.params.id == "") {
-    return res.status(406); //parameter needed
+  let [pizza_type, price] = req.body;
+  if (req.params.id == "" || pizza_type == undefined || price == undefined) {
+    res.statusMessage = "No tiene las propiedades suficientes";
+    return res.status(406).send(); //parameter needed
   }
 
   prizeModel.findById(req.params.id).then((foundPrize) => {
@@ -58,7 +61,7 @@ router.put("/update/prize/:id", (req, res, next) => {
     };
 
     prizeModel
-      .updateOne({ _id: foundPrize._id }, updatedPrize)
+      .updateOne({ _id: foundPrize._id }, prizeEntry)
       .then((updatedPrize) => {
         res.status(200).json(updatedPrize);
       })

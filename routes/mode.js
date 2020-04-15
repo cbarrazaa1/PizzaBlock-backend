@@ -9,7 +9,12 @@ let jsonParser = bodyParser.json();
 var errorMsg = "Database cannot be reached, try again later";
 
 //create mode
-router.post("/create/mode", (req, res, next) => {
+router.post("/create/mode", jsonParser, (req, res, next) => {
+  let [name, description] = req.body;
+  if (name == undefined || description == undefined) {
+    res.statusMessage = "No tiene las propiedades suficientes";
+    return res.status(406).send();
+  }
   var modeEntry = {
     name: req.body.name,
     description: req.body.description,
@@ -18,7 +23,8 @@ router.post("/create/mode", (req, res, next) => {
   modeModel
     .create(modeEntry)
     .then((createdMode) => {
-      res.send(createdMode); //Envia el objeto [modo] a Frontend
+      res.statusMessage = "Mode Añadido";
+      return res.status(201).json(createdMode);
     })
     .catch((e) => {
       res.statusMessage = errorMsg;
@@ -58,8 +64,9 @@ router.put("/update/mode/:id", (req, res, next) => {
     };
 
     modeModel
-      .updateOne({ _id: foundMode._id }, updatedMode)
+      .updateOne({ _id: foundMode._id }, modeEntry)
       .then((updatedMode) => {
+        res.statusMessage = "Updated Mode";
         res.status(200).json(updatedMode);
       })
       .catch((e) => {
