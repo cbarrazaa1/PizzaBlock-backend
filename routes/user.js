@@ -65,7 +65,21 @@ router.post("/create/user", jsonParser, (req, res, next) => {
       return res;
     });
 });
-
+//get all users
+router.get("/get/usersl", (req, res, next) => {
+  userModel
+    .find()
+    .then((allUsers) => {
+      return res.status(200).json(allUsers);
+    })
+    .catch((e) => {
+      res.statusMessage = errorMsg;
+      res.status(500).json({
+        message: res.statusMessage,
+      });
+      return res;
+    });
+});
 //get user by user_name
 router.get("/get/user/:user_name", (req, res, next) => {
   if (req.params.user_name == "") {
@@ -167,22 +181,6 @@ router.get("/validate/:token", (req, res) => {
     }
     return res.status(200).json({ message: "Success", id: foundUser._id });
   });
-});
-
-//get all users
-router.get("/get/user/all", (req, res, next) => {
-  userModel
-    .find()
-    .then((allUsers) => {
-      return res.status(200).json(allUsers);
-    })
-    .catch((e) => {
-      res.statusMessage = errorMsg;
-      res.status(500).json({
-        message: res.statusMessage,
-      });
-      return res;
-    });
 });
 //update user
 router.put("/update/user/:id", (req, res, next) => {
