@@ -77,7 +77,7 @@ router.post("/get/user/:email", (req, res, next) => {
     });
 });
 
-//login
+/* //login
 router.post("/login"),jsonParser, (req, res, next) => {
   let { email, password } = req.body;
 
@@ -129,7 +129,7 @@ app.get("/validate/:token", (req, res) => {
     }
     return res.status(200).json({ message: "Success", id: foundUser._id });
   });
-});
+}); */
 
 //get all users
 router.get("/get/user/all", (req, res, next) => {
