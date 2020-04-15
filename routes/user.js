@@ -66,7 +66,7 @@ router.post("/create/user", jsonParser, (req, res, next) => {
     });
 });
 //get all users
-router.get("/get/usersl", (req, res, next) => {
+router.get("/get/users", (req, res, next) => {
   userModel
     .find()
     .then((allUsers) => {
