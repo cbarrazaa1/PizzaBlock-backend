@@ -44,9 +44,9 @@ router.get("/get/user/:user_name", (req, res, next) => {
   }
 
   userModel
-    .find({ user_name: req.params.user_name })
+    .findOne({ user_name: req.params.user_name })
     .then((foundUser) => {
-      return res.status(200).json(foundUser);
+      return res.status(200).json({ foundUser });
     })
     .catch((e) => {
       res.statusMessage = errorMsg;
@@ -63,9 +63,9 @@ router.get("/get/user/:email", (req, res, next) => {
     return res.status(406); //parameter needed
   }
   userModel
-    .find({ email: req.params.email })
+    .findOne({ email: req.params.email })
     .then((foundUser) => {
-      return res.status(200).json(foundUser);
+      return res.status(200).json({ foundUser });
     })
     .catch((e) => {
       res.statusMessage = errorMsg;
