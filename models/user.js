@@ -28,6 +28,9 @@ const UserSchema = new mongoose.Schema({
   zip_code: {
     type: Number,
   },
+  state: {
+    type: String,
+  },
   country: {
     //Tengo dudas en cuanto a como almacenaremos el valor de country
     type: String,
@@ -36,9 +39,13 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  //profilePicture: {}, //Tengo dudas en como handlear este pex
+  profilePictureUrl: {
+    type: String,
+    required: true,
+  },
   balance: {
-    type: Number,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Balance",
   },
   games: [{ type: mongoose.Schema.Types.ObjectId, ref: "Game" }], //Participaciones | es una manera de poder representar una relacion M TO N
 });
