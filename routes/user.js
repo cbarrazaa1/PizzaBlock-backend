@@ -49,12 +49,9 @@ router.post("/create/user", jsonParser, (req, res, next) => {
     country: country,
     password: password,
     balance: 0.0,
-    wins: 0,
-    losses: 0,
-    games_played: 0,
     rank: 0,
     experience_points: 0,
-    level: 0
+    level: 0,
   };
 
   userModel
@@ -204,11 +201,10 @@ router.put("/update/user/:id", (req, res, next) => {
       zip_code: req.body.zip_code || foundUser.zip_code,
       country: req.body.country || foundUser.country,
       password: req.body.password || foundUser.password,
-      wins: req.body.wins || foundUser.wins,
-      losses: req.body.losses || foundUser.losses,
       rank: req.body.rank || foundUser.rank,
-      experience_points: req.body.experience_points || foundUser.experience_points,
-      level: req.body.level || foundUser.level
+      experience_points:
+        req.body.experience_points || foundUser.experience_points,
+      level: req.body.level || foundUser.level,
     };
 
     userModel

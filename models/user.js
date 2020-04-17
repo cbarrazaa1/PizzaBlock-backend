@@ -48,15 +48,6 @@ const UserSchema = new mongoose.Schema({
     ref: "Balance",
   },
   games: [{ type: mongoose.Schema.Types.ObjectId, ref: "Game" }], //Participaciones | es una manera de poder representar una relacion M TO N
-  wins: {
-    type: Number,
-  },
-  losses: {
-    type: Number,
-  },
-  games_played: {
-    type: Number,
-  },
   rank: {
     type: Number,
   },
@@ -65,7 +56,7 @@ const UserSchema = new mongoose.Schema({
   },
   level: {
     type: Number,
-  }
+  },
 });
 
 const User = mongoose.model("User", UserSchema);
