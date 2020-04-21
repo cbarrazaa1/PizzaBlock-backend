@@ -130,6 +130,30 @@ router.get("/get/user/:email", (req, res, next) => {
     });
 });
 
+//get user by id
+router.get("/get/user/:_id", (req, res, next) => {
+  if (req.params._id == "") {
+    return res.status(406); //parameter needed
+  }
+  
+  userModel
+    .findOne({ _id: req.params._id })
+    .then((foundUser) => {
+      if (foundUser != undefined) {
+        return res.status(200).json({ foundUser });
+      }
+      res.statusMessage = "No se encontró el usuario por id";
+      return res.status(400).send();
+    })
+    .catch((e) => {
+      res.statusMessage = errorMsg;
+      res.status(500).json({
+        message: res.statusMessage,
+      });
+      return res;
+    });
+});
+
 //login
 router.post("/login", jsonParser, (req, res) => {
   let { email, password } = req.body;
