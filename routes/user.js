@@ -22,6 +22,7 @@ router.post("/create/user", jsonParser, (req, res, next) => {
     email,
     street_addr,
     zip_code,
+    state,
     country,
     password,
   } = req.body;
@@ -32,6 +33,7 @@ router.post("/create/user", jsonParser, (req, res, next) => {
     email == null ||
     street_addr == null ||
     zip_code == null ||
+    state == null ||
     country == null ||
     password == null
   ) {
@@ -46,6 +48,7 @@ router.post("/create/user", jsonParser, (req, res, next) => {
     email: email,
     street_addr: street_addr,
     zip_code: zip_code,
+    state: state,
     country: country,
     password: password,
     balance: 0.0,
