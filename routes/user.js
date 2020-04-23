@@ -15,7 +15,7 @@ const {
 const stripe = require("stripe")(STRIPE_SECRET_KEY);
 //create user
 router.post("/create/user", jsonParser, (req, res, next) => {
-  let [
+  let {
     name,
     last_name,
     user_name,
@@ -24,16 +24,16 @@ router.post("/create/user", jsonParser, (req, res, next) => {
     zip_code,
     country,
     password,
-  ] = req.body;
+  } = req.body;
   if (
-    name == undefined ||
-    last_name == undefined ||
-    user_name == undefined ||
-    email == undefined ||
-    street_addr == undefined ||
-    zip_code == undefined ||
-    country == undefined ||
-    password == undefined
+    name == null ||
+    last_name == null ||
+    user_name == null ||
+    email == null ||
+    street_addr == null ||
+    zip_code == null ||
+    country == null ||
+    password == null
   ) {
     res.statusMessage = "No tiene las propiedades suficientes";
     return res.status(406).send();
@@ -135,7 +135,7 @@ router.get("/get/user/:_id", (req, res, next) => {
   if (req.params._id == "") {
     return res.status(406); //parameter needed
   }
-  
+
   userModel
     .findOne({ _id: req.params._id })
     .then((foundUser) => {
