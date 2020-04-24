@@ -44,8 +44,7 @@ const UserSchema = new mongoose.Schema({
   // required: true,
   // },
   balance: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Balance",
+    type: Number,
   },
   games: [{ type: mongoose.Schema.Types.ObjectId, ref: "Game" }], //Participaciones | es una manera de poder representar una relacion M TO N
   rank: {

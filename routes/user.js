@@ -13,6 +13,7 @@ const {
   STRIPE_SECRET_KEY,
 } = require("./../config");
 const stripe = require("stripe")(STRIPE_SECRET_KEY);
+
 //create user
 router.post("/create/user", jsonParser, (req, res, next) => {
   let {
@@ -52,11 +53,12 @@ router.post("/create/user", jsonParser, (req, res, next) => {
     country: country,
     password: password,
     balance: 0.0,
+    games: [],
     rank: 0,
     experience_points: 0,
     level: 0,
   };
-
+  console.log(userEntry);
   userModel
     .create(userEntry)
     .then((createdUser) => {
@@ -64,6 +66,7 @@ router.post("/create/user", jsonParser, (req, res, next) => {
       return res.status(201).json(createdUser); //Envia el objeto [usuario] a Frontend
     })
     .catch((e) => {
+      console.log(e);
       res.statusMessage = errorMsg;
       res.status(500).json({
         message: res.statusMessage,
@@ -226,6 +229,7 @@ router.put("/update/user/:id", (req, res, next) => {
       email: req.body.email || foundUser.email,
       street_addr: req.body.street_addr || foundUser.street_addr,
       zip_code: req.body.zip_code || foundUser.zip_code,
+      state: req.body.state || foundUser.state,
       country: req.body.country || foundUser.country,
       password: req.body.password || foundUser.password,
       rank: req.body.rank || foundUser.rank,
