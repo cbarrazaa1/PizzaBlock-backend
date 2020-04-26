@@ -4,7 +4,8 @@
   "description": "- Manejo de solicitudes (de Frontend [otro repo]) y base de datos\r - Conexiones entre Multiplayer (otro repo) y Frontend\r - Seguridad de solicitudes y respuestas",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
