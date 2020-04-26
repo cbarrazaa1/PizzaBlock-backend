@@ -46,14 +46,18 @@ router.post("/create/user", jsonParser, (req, res, next) => {
 
   let encryptedPassword;
 
-  bcrypt.hash(password, saltRounds, (err, hash) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
+  bcrypt
+    .hash(password, saltRounds, (err, hash) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
 
-    encryptedPassword = hash;
-  });
+      encryptedPassword = hash;
+    })
+    .then(password => {
+      encryptedPassword = password;
+    });
 
   var userEntry = {
     name: name,
@@ -64,7 +68,7 @@ router.post("/create/user", jsonParser, (req, res, next) => {
     zip_code: zip_code,
     state: state,
     country: country,
-    password: password,
+    password: encryptedPassword,
     balance: 0.0,
     games: [],
     rank: 0,
