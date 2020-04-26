@@ -13,6 +13,8 @@ const {
   STRIPE_SECRET_KEY,
 } = require("./../config");
 const stripe = require("stripe")(STRIPE_SECRET_KEY);
+let bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 //create user
 router.post("/create/user", jsonParser, (req, res, next) => {
@@ -42,6 +44,17 @@ router.post("/create/user", jsonParser, (req, res, next) => {
     return res.status(406).send();
   }
 
+  let encryptedPassword;
+
+  bcrypt.hash(password, saltRounds, (err, hash) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+
+    encryptedPassword = hash;
+  })
+
   var userEntry = {
     name: name,
     last_name: last_name,
@@ -51,7 +64,7 @@ router.post("/create/user", jsonParser, (req, res, next) => {
     zip_code: zip_code,
     state: state,
     country: country,
-    password: password,
+    password: encryptedPassword,
     balance: 0.0,
     games: [],
     rank: 0,
@@ -160,6 +173,8 @@ router.get("/get/user/:_id", (req, res, next) => {
     });
 });
 
+let foundUser;
+
 //login
 router.post("/login", jsonParser, (req, res) => {
   let { email, password } = req.body;
@@ -170,6 +185,57 @@ router.post("/login", jsonParser, (req, res) => {
   }
   userModel
     .findOne({ email: email })
+    .then(user => {
+      if (user == null) {
+        res.statusMessage = "User not found";
+        return res.status(404).send();
+      }
+
+      foundUser = user;
+
+      return bcrypt.compare(password, user.password)
+    })
+    .then(result => {
+      let data = {
+        email: foundUser.email,
+        password: foundUser.password,
+        id: foundUser._id
+      }
+
+      let token = jwt.sign(data, JWTTOKEN, {
+        expiresIn: 60 * 120,
+      });
+
+      if (result) {
+        return res.status(200).json({
+          token: token,
+          email: foundUser.email,
+          password: foundUser.password,
+          id: foundUser._id
+        });
+      }
+      else {
+        res.statusMessage = "Invalid password.";
+        return res.status(401).send();
+      }
+    })
+    .catch(error => {
+      if (error.code === 404) {
+          res.statusMessage = error.message;
+          return res.status(404).send();
+      } else if (error.code === 401) {
+          res.statusMessage = error.message;
+          return res.status(401).send();
+      }
+
+      console.log(error);
+
+      res.statusMessage = "Database error";
+      return res.status(500).send();
+    })
+
+
+/*
     .then((foundUser) => {
       if (foundUser != undefined) {
         let data = {
@@ -199,6 +265,7 @@ router.post("/login", jsonParser, (req, res) => {
       });
       return res;
     });
+*/
 });
 
 //validate token
