@@ -173,8 +173,6 @@ router.get("/get/user/:_id", (req, res, next) => {
     });
 });
 
-let foundUser;
-
 //login
 router.post("/login", jsonParser, (req, res) => {
   let { email, password } = req.body;
@@ -183,6 +181,9 @@ router.post("/login", jsonParser, (req, res) => {
     res.statusMessage = "No hay email o password";
     return res.status(406).send();
   }
+
+  let foundUser;
+
   userModel
     .findOne({ email: email })
     .then(user => {
