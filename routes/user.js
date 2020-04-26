@@ -194,7 +194,7 @@ router.post("/login", jsonParser, (req, res) => {
 
       foundUser = user;
 
-      return bcrypt.compare(password, user.password)
+      return bcrypt.compare(password, user.password);
     })
     .then(result => {
       let data = {
