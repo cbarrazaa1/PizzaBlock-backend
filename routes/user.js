@@ -46,18 +46,9 @@ router.post("/create/user", jsonParser, (req, res, next) => {
 
   let encryptedPassword;
 
-  bcrypt
-    .hash(password, saltRounds, (err, hash) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-
-      encryptedPassword = hash;
-    })
-    .then(password => {
-      encryptedPassword = password;
-    });
+  bcrypt.hash(password, saltRounds).then(hash => {
+    encryptedPassword = hash;
+  });
 
   var userEntry = {
     name: name,
