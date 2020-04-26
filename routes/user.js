@@ -10,10 +10,10 @@ var errorMsg = "Database cannot be reached, try again later";
 const {
   JWTTOKEN,
   STRIPE_PUBLISHABLE_KEY,
-  STRIPE_SECRET_KEY,
+  STRIPE_SECRET_KEY
 } = require("./../config");
 const stripe = require("stripe")(STRIPE_SECRET_KEY);
-let bcrypt = require('bcrypt');
+let bcrypt = require("bcrypt");
 const saltRounds = 10;
 
 //create user
@@ -27,7 +27,7 @@ router.post("/create/user", jsonParser, (req, res, next) => {
     zip_code,
     state,
     country,
-    password,
+    password
   } = req.body;
   if (
     name == null ||
@@ -53,7 +53,7 @@ router.post("/create/user", jsonParser, (req, res, next) => {
     }
 
     encryptedPassword = hash;
-  })
+  });
 
   var userEntry = {
     name: name,
@@ -64,25 +64,25 @@ router.post("/create/user", jsonParser, (req, res, next) => {
     zip_code: zip_code,
     state: state,
     country: country,
-    password: encryptedPassword,
+    password: password,
     balance: 0.0,
     games: [],
     rank: 0,
     experience_points: 0,
-    level: 0,
+    level: 0
   };
   console.log(userEntry);
   userModel
     .create(userEntry)
-    .then((createdUser) => {
+    .then(createdUser => {
       res.statusMessage = "Usuario Añadido";
       return res.status(201).json(createdUser); //Envia el objeto [usuario] a Frontend
     })
-    .catch((e) => {
+    .catch(e => {
       console.log(e);
       res.statusMessage = errorMsg;
       res.status(500).json({
-        message: res.statusMessage,
+        message: res.statusMessage
       });
       return res;
     });
@@ -91,13 +91,13 @@ router.post("/create/user", jsonParser, (req, res, next) => {
 router.get("/get/users", (req, res, next) => {
   userModel
     .find()
-    .then((allUsers) => {
+    .then(allUsers => {
       return res.status(200).json(allUsers);
     })
-    .catch((e) => {
+    .catch(e => {
       res.statusMessage = errorMsg;
       res.status(500).json({
-        message: res.statusMessage,
+        message: res.statusMessage
       });
       return res;
     });
@@ -110,17 +110,17 @@ router.get("/get/user/:user_name", (req, res, next) => {
 
   userModel
     .findOne({ user_name: req.params.user_name })
-    .then((foundUser) => {
+    .then(foundUser => {
       if (foundUser != undefined) {
         return res.status(200).json({ foundUser });
       }
       res.statusMessage = "No se encontró el usuario por nombre de usuario";
       return res.status(400).send();
     })
-    .catch((e) => {
+    .catch(e => {
       res.statusMessage = errorMsg;
       res.status(500).json({
-        message: res.statusMessage,
+        message: res.statusMessage
       });
       return res;
     });
@@ -133,17 +133,17 @@ router.get("/get/user/:email", (req, res, next) => {
   }
   userModel
     .findOne({ email: req.params.email })
-    .then((foundUser) => {
+    .then(foundUser => {
       if (foundUser != undefined) {
         return res.status(200).json({ foundUser });
       }
       res.statusMessage = "No se encontró el usuario por email";
       return res.status(400).send();
     })
-    .catch((e) => {
+    .catch(e => {
       res.statusMessage = errorMsg;
       res.status(500).json({
-        message: res.statusMessage,
+        message: res.statusMessage
       });
       return res;
     });
@@ -157,17 +157,17 @@ router.get("/get/user/:_id", (req, res, next) => {
 
   userModel
     .findOne({ _id: req.params._id })
-    .then((foundUser) => {
+    .then(foundUser => {
       if (foundUser != undefined) {
         return res.status(200).json({ foundUser });
       }
       res.statusMessage = "No se encontró el usuario por id";
       return res.status(400).send();
     })
-    .catch((e) => {
+    .catch(e => {
       res.statusMessage = errorMsg;
       res.status(500).json({
-        message: res.statusMessage,
+        message: res.statusMessage
       });
       return res;
     });
@@ -201,10 +201,10 @@ router.post("/login", jsonParser, (req, res) => {
         email: foundUser.email,
         password: foundUser.password,
         id: foundUser._id
-      }
+      };
 
       let token = jwt.sign(data, JWTTOKEN, {
-        expiresIn: 60 * 120,
+        expiresIn: 60 * 120
       });
 
       if (result) {
@@ -214,29 +214,27 @@ router.post("/login", jsonParser, (req, res) => {
           password: foundUser.password,
           id: foundUser._id
         });
-      }
-      else {
+      } else {
         res.statusMessage = "Invalid password.";
         return res.status(401).send();
       }
     })
     .catch(error => {
       if (error.code === 404) {
-          res.statusMessage = error.message;
-          return res.status(404).send();
+        res.statusMessage = error.message;
+        return res.status(404).send();
       } else if (error.code === 401) {
-          res.statusMessage = error.message;
-          return res.status(401).send();
+        res.statusMessage = error.message;
+        return res.status(401).send();
       }
 
       console.log(error);
 
       res.statusMessage = "Database error";
       return res.status(500).send();
-    })
+    });
 
-
-/*
+  /*
     .then((foundUser) => {
       if (foundUser != undefined) {
         let data = {
@@ -289,7 +287,7 @@ router.put("/update/user/:id", (req, res, next) => {
     return res.status(406).send(); //parameter needed
   }
 
-  userModel.findById(req.params.id).then((foundUser) => {
+  userModel.findById(req.params.id).then(foundUser => {
     updatedUser = {
       name: req.body.name || foundUser.name,
       last_name: req.body.last_name || foundUser.last_name,
@@ -303,19 +301,19 @@ router.put("/update/user/:id", (req, res, next) => {
       rank: req.body.rank || foundUser.rank,
       experience_points:
         req.body.experience_points || foundUser.experience_points,
-      level: req.body.level || foundUser.level,
+      level: req.body.level || foundUser.level
     };
 
     userModel
       .updateOne({ _id: foundUser._id }, updatedUser)
-      .then((response) => {
+      .then(response => {
         res.statusMessage = "Updated User";
         res.status(200).json(response);
       })
-      .catch((e) => {
+      .catch(e => {
         res.statusMessage = errorMsg;
         res.status(500).json({
-          message: statusMessage,
+          message: statusMessage
         });
 
         return res;
@@ -331,14 +329,14 @@ router.delete("/delete/user/:id", (req, res, next) => {
 
   userModel
     .delete(req.params.id)
-    .then((deletedUser) => {
+    .then(deletedUser => {
       return res.status(200).json(deletedUser);
     })
-    .catch((e) => {
+    .catch(e => {
       res.statusMessage = errorMsg;
       return res.status(500).json({
         status: 500,
-        message: res.statusMessage,
+        message: res.statusMessage
       });
     });
 });
@@ -359,24 +357,24 @@ router.post("/charge/", jsonParser, (req, res, next) => {
   stripe.customers
     .create({
       email: stripeEmail,
-      source: stripeToken,
+      source: stripeToken
     })
-    .then((customer) =>
+    .then(customer =>
       stripe.charges.create({
         amount,
         description: description,
         currency: "usd",
-        customer: customer.id,
+        customer: customer.id
       })
     )
-    .then((charge) => {
+    .then(charge => {
       res.statusMessage = "Cargo Hecho";
       return res.status(201).json(charge);
     })
-    .catch((e) => {
+    .catch(e => {
       res.statusMessage = errorMsg;
       res.status(500).json({
-        message: res.statusMessage,
+        message: res.statusMessage
       });
       return res;
     });
